@@ -1,0 +1,31 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    description: Database for dbt online training.
+    database: raw
+    schema: jaffle_shop
+    tables:
+     - name: customers
+       description: Customers data raw.
+       columns:
+         - name: id
+           description: Primary key for customers data.
+           tests:
+             - unique
+             - not_null
+
+     - name: orders
+       description: Orders data raw.
+       loaded_at_field: _ETL_LOADED_AT
+       freshness:
+         warn_after: {count: 12, period: hour}
+         error_after: {count: 24, period: hour}
+       columns:
+         - name: id
+           description: Primary key for orders data.
+           tests:
+             - unique
+             - not_null
+
+  
